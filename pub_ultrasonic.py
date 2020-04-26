@@ -34,38 +34,36 @@ counter = 1000
 #  ::::: ***** ::::: ***** ::::: *****  # 
 #  below code: web cam video transfer
 #  ::::: ***** ::::: ***** ::::: *****  #
-# cap = cv2.VideoCapture(0)
-
-# while cap.isOpened():
-#     try: 
-#         ret, frame = cap.read()
-#         if not ret:
-#              print("error while reading video")
-#         resized_img = imutils.resize(frame, height=400)
-#         encoded, buffer = cv2.imencode('.jpg', resized_img)
-#         socket.send(base64.b64encode(buffer))
-#         # cv2.imshow("cv2_send", resized_img)
-#         if cv2.waitKey(25) & 0xFF == ord('q'):
-#                 break
-#     except KeyboardInterrupt:
-#         cap.release()
-#         cv2.destroyAllWindows()
+cap = cv2.VideoCapture(0)
+# print(dir(socket))
+import json
+while cap.isOpened():
+    try: 
+        ret, frame = cap.read()
+        if not ret:
+             print("error while reading video")
+        resized_img = imutils.resize(frame, height=400)
+        encoded, buffer = cv2.imencode('.jpg', resized_img)
+        socket.send_multipart([b"camera", base64.b64encode(buffer)])
+        # cv2.imshow("cv2_send", resized_img)
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+                break
+    except KeyboardInterrupt:
+        cap.release()
+        cv2.destroyAllWindows()
         
 #  ::::: ***** ::::: ***** ::::: *****  # 
 #  below code: lidar txt file transfering
 #  ::::: ***** ::::: ***** ::::: *****  #
-file = open('/home/dell/work/ipc_framework/lidar/0000000108.txt', 'rb')
-# data = file.read(4096)
-# 
-lines = file.readlines() 
-try:
-    for line in lines:
-        print(type(line), line)
-        # import pdb;pdb.set_trace()
-        socket.send_string(str(line))
-        # time.sleep(1)
-except Exception as e:
-    print(">>>: ", e)
-# while data:
-#     socket.send(data)
-#     data = file.read(4096)
+# file = open('/home/dell/work/ipc_framework/lidar/0000000108.txt', 'rb')
+# # data = file.read(4096)
+# # 
+# lines = file.readlines() 
+# try:
+#     for line in lines:
+#         print(type(line), line)
+#         # import pdb;pdb.set_trace()
+#         socket.send_string(str(line))
+#         # time.sleep(1)
+# except Exception as e:
+#     print(">>>: ", e)

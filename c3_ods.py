@@ -54,7 +54,8 @@ dic_c3 = {}
 while True:
     try: 
         # TODO: logic to receive data
-        frame = socket.recv_string()
+        # frame = socket.recv_string()
+        topic, frame = socket.recv_multipart()
         img = base64.b64decode(frame)
         npimg = np.fromstring(img, dtype=np.uint8)
         source = cv2.imdecode(npimg, 1)
@@ -62,8 +63,9 @@ while True:
 
         edg_img = cv2.Canny(source, 100, 200)
         encoded, buffer = cv2.imencode('.jpg', edg_img)
-        socket1.send(base64.b64encode(buffer))
-        cv2.imshow("c2_ods", source)
+        # socket1.send("ods", base64.b64encode(buffer))
+        socket1.send_multipart([b"ods", base64.b64encode(buffer)])
+        cv2.imshow("c3_ods", source)
         if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
     except KeyboardInterrupt:

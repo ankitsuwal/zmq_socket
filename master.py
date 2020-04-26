@@ -54,29 +54,35 @@ dic_master = {}
 #  ::::: ***** ::::: ***** ::::: *****  # 
 #  below code: video reader
 #  ::::: ***** ::::: ***** ::::: *****  #
-# while True:
-#     try: 
-#         # TODO: logic to receive data
-#         frame = socket.recv_string()
-#         img = base64.b64decode(frame)
-#         npimg = np.fromstring(img, dtype=np.uint8)
-#         source = cv2.imdecode(npimg, 1)
-#         cv2.imshow("Master", source)
-#         if cv2.waitKey(25) & 0xFF == ord('q'):
-#                 break
-#     except KeyboardInterrupt:
-#         cap.release()
-#         cv2.destroyAllWindows()
-
-
-#  ::::: ***** ::::: ***** ::::: *****  # 
-#  below code: lidar txt file transfering
-#  ::::: ***** ::::: ***** ::::: *****  #
-file = open('recv.txt', 'wb')
 while True:
-    try:
-        string = socket.recv()
-        print(string)
-        file.write(string)
-    except Exception as e:
-        print("recv: ", e)
+    try: 
+        # TODO: logic to receive data
+        topic, frame = socket.recv_multipart()
+        # frame = socket.recv_string()
+        img = base64.b64decode(frame)
+        npimg = np.fromstring(img, dtype=np.uint8)
+        source = cv2.imdecode(npimg, 1)
+        topic = topic.decode("utf-8")
+        if topic == "camera":
+            cv2.imshow("camera", source)
+        elif topic == "ods":
+            cv2.imshow("ods", source)
+        # cv2.imshow("Master", source)
+        if cv2.waitKey(25) & 0xFF == ord('q'):
+                break
+    except KeyboardInterrupt:
+        cap.release()
+        cv2.destroyAllWindows()
+
+
+# #  ::::: ***** ::::: ***** ::::: *****  # 
+# #  below code: lidar txt file transfering
+# #  ::::: ***** ::::: ***** ::::: *****  #
+# file = open('recv.txt', 'wb')
+# while True:
+#     try:
+#         string = socket.recv()
+#         print(string)
+#         file.write(string)
+#     except Exception as e:
+#         print("recv: ", e)
