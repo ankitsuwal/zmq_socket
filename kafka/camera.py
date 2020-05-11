@@ -1,3 +1,5 @@
+# sudo systemctl start kafka
+# You can only have one consumer per topic (unless it’s ok to have the job done several times)
 import sys
 import time
 import cv2
@@ -24,7 +26,7 @@ def publish_camera():
             print("frame No: ", frame_count)
             if not ret:
                  print("error while reading video")
-            resized_img = imutils.resize(frame, height=400)
+            resized_img = imutils.resize(frame, height=200)
             encoded, buffer = cv2.imencode('.jpg', resized_img)
             producer.send(topic, base64.b64encode(buffer))
 
