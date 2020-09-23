@@ -8,6 +8,7 @@ import socket
 import random
 import numpy as np
 import base64
+import threading
 from flask import Flask
 from flask import Response
 from flask_cors import CORS
@@ -40,12 +41,10 @@ def generate():
 port = "1234"
 # port1 = "3333"
 if len(sys.argv) > 1:
-    print("1111111111: ", len(sys.argv))
     port1 = sys.argv[1]
     int(port1)
 
 if len(sys.argv) > 2:
-    print("222222222: ", len(sys.argv))
     port2 = sys.argv[2]
     int(port2)
 # print("\n\n>>>>>>>>>>>>>>: ", port, port1, len(sys.argv))
@@ -133,21 +132,10 @@ def capture_frames():
 def video_feed():
     return Response(generate(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
-import threading
+
 if __name__ == '__main__':
 
     t = threading.Thread(target=capture_frames, args=())
     t.start()
     time.sleep(3)
     app.run(host='192.168.1.27', port=int(8001), threaded=True)
-# #  ::::: ***** ::::: ***** ::::: *****  #
-# #  below code: lidar txt file transfering
-# #  ::::: ***** ::::: ***** ::::: *****  #
-# file = open('recv.txt', 'wb')
-# while True:
-#     try:
-#         string = socket.recv()
-#         print(string)
-#         file.write(string)
-#     except Exception as e:
-#         print("recv: ", e)
