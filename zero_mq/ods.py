@@ -10,7 +10,7 @@ import cv2
 # provide pub_ultrasonic port(1221) while runnning it
 port = "1234"
 if len(sys.argv) > 1:
-    port1 =  sys.argv[1] # 3333
+    port1 = sys.argv[1]  # 3333
     int(port1)
 # if len(sys.argv) > 2:
 #     port1 =  sys.argv[2]
@@ -25,7 +25,7 @@ socket1.bind("tcp://*:%s" % port1)
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
 socket.setsockopt_string(zmq.SUBSCRIBE, str(''))
-socket.connect ("tcp://localhost:%s" % port)
+socket.connect("tcp://localhost:%s" % port)
 # print("Master: Entering into while loop: ", len(sys.argv))
 topicfilter = "10003"
 send_topicfilter = "100031"
@@ -47,8 +47,9 @@ dic_c3 = {}
 #     except Exception as e:
 #         print("error: ", e)
 # print("C3: ", dic_c3)
-
-#  ::::: ***** ::::: ***** ::::: *****  # 
+''''''
+# TODO:
+#  ::::: ***** ::::: ***** ::::: *****  #
 #  below code: video reader
 #  ::::: ***** ::::: ***** ::::: *****  #
 while True:
@@ -65,9 +66,9 @@ while True:
         encoded, buffer = cv2.imencode('.jpg', edg_img)
         # socket1.send("ods", base64.b64encode(buffer))
         socket1.send_multipart([b"ods", base64.b64encode(buffer)])
-        cv2.imshow("c3_ods", source)
+        # cv2.imshow("c3_ods1", source)
         if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
+            break
     except KeyboardInterrupt:
-        cap.release()
+        # cap.release()
         cv2.destroyAllWindows()

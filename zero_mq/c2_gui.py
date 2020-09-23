@@ -1,4 +1,3 @@
-
 import zmq
 import random
 import sys
@@ -7,7 +6,7 @@ import time
 # provide pub_ultrasonic port(1221) while runnning it
 port = "1221"
 if len(sys.argv) > 1:
-    port =  sys.argv[1]
+    port = sys.argv[1]
     int(port)
 
 # socket = context.socket(zmq.PUB)
@@ -15,7 +14,7 @@ if len(sys.argv) > 1:
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
 # socket.bind("tcp://*:%s" % port)
-socket.connect ("tcp://localhost:%s" % port)
+socket.connect("tcp://localhost:%s" % port)
 print("Master: Entering into while loop: ", len(sys.argv))
 topicfilter = "10002"
 socket.setsockopt_string(zmq.SUBSCRIBE, topicfilter)

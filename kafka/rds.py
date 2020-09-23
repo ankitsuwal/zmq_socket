@@ -7,7 +7,7 @@ from kafka import KafkaConsumer
 from kafka import KafkaProducer
 # Fire up the Kafka Consumer
 topic = "camera"
-topic1 = "send_by_ods"
+topic1 = "send_by_rds"
 consumer = KafkaConsumer(topic, bootstrap_servers=['localhost:9092'])
 producer = KafkaProducer(bootstrap_servers='localhost:9092')
 def get_video_stream():

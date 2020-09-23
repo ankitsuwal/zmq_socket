@@ -42,17 +42,15 @@ while cap.isOpened():
     try: 
         ret, frame = cap.read()
         frame_count += 1
-        print("frame No: ", frame_count)
+        # print("frame No: ", frame_count)
         if not ret:
-             print("error while reading video")
+            print("error while reading video")
         resized_img = imutils.resize(frame, height=400)
         encoded, buffer = cv2.imencode('.jpg', resized_img)
         socket.send_multipart([b"camera", base64.b64encode(buffer)])
-
-
         # cv2.imshow("cv2_send", resized_img)
         if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
+            break
     except KeyboardInterrupt:
         cap.release()
         cv2.destroyAllWindows()

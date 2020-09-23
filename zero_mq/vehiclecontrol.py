@@ -7,12 +7,13 @@ import socket
 import random
 import numpy as np
 import base64
-# if you want to recv the data from pub_ultrasonic you have to 
+
+# if you want to recv the data from pub_ultrasonic you have to
 # provide pub_ultrasonic port(1221) while runnning it
 port = "1221"
 
 if len(sys.argv) > 1:
-    port =  sys.argv[1]
+    port = sys.argv[1]
     int(port)
 
 # socket = context.socket(zmq.PUB)
@@ -21,7 +22,7 @@ context = zmq.Context()
 socket = context.socket(zmq.SUB)
 socket.setsockopt_string(zmq.SUBSCRIBE, str(''))
 # socket.bind("tcp://*:%s" % port)
-socket.connect ("tcp://localhost:%s" % port)
+socket.connect("tcp://localhost:%s" % port)
 # print("Master: Entering into while loop: ", len(sys.argv))
 topicfilter = "10001"
 socket.setsockopt_string(zmq.SUBSCRIBE, topicfilter)
@@ -40,7 +41,7 @@ dic_c1 = {}
 #  below code: video reader
 #  ::::: ***** ::::: ***** ::::: *****  #
 while True:
-    try: 
+    try:
         # TODO: logic to receive data
         frame = socket.recv_string()
         img = base64.b64decode(frame)
@@ -48,7 +49,7 @@ while True:
         source = cv2.imdecode(npimg, 1)
         cv2.imshow("c1_vc", source)
         if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
+            break
     except KeyboardInterrupt:
         cap.release()
         cv2.destroyAllWindows()
