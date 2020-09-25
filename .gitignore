@@ -1,0 +1,14 @@
+*.png
+*.jpeg
+*.jpg
+*.mp4
+*.avi
+*__pycache__
+*.vscode/
+*.weights
+*.log
+demo/models/
+models_therm/
+*.csv
+*.npy
+*.pyc
